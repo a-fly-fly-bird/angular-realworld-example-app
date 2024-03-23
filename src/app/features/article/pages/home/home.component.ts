@@ -1,14 +1,14 @@
-import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { TagsService } from "../../services/tags.service";
-import { ArticleListConfig } from "../../models/article-list-config.model";
 import { AsyncPipe, NgClass, NgForOf } from "@angular/common";
-import { ArticleListComponent } from "../../components/article-list.component";
-import { tap } from "rxjs/operators";
-import { UserService } from "../../../../core/auth/services/user.service";
-import { RxLet } from "@rx-angular/template/let";
-import { IfAuthenticatedDirective } from "../../../../core/auth/if-authenticated.directive";
+import { Component, DestroyRef, OnInit, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Router } from "@angular/router";
+import { RxLet } from "@rx-angular/template/let";
+import { tap } from "rxjs/operators";
+import { IfAuthenticatedDirective } from "../../../../core/auth/if-authenticated.directive";
+import { UserService } from "../../../../core/auth/services/user.service";
+import { ArticleListComponent } from "../../components/article-list.component";
+import { ArticleListConfig } from "../../models/article-list-config.model";
+import { TagsService } from "../../services/tags.service";
 
 @Component({
   selector: "app-home-page",
@@ -37,11 +37,13 @@ export default class HomeComponent implements OnInit {
   destroyRef = inject(DestroyRef);
 
   constructor(
+    // 与 const 相比， readonly 具有更大的灵活性，因为它允许在构造函数中设置属性的初始值。
     private readonly router: Router,
     private readonly userService: UserService,
   ) {}
 
   ngOnInit(): void {
+    // 如果一开始没有token,那么就this.userService.isAuthenticated就是false
     this.userService.isAuthenticated
       .pipe(
         tap((isAuthenticated) => {

@@ -49,6 +49,7 @@ export const appConfig: ApplicationConfig = {
       // 在应用初始化的时候，会注入对应的工厂函数执行，也就是initAuth, initAuth 会调用getToken()方法检查本地是否缓存有JWT Token,有的话就会发送一个http请求，http请求首先会走apiInterceptor，然后是tokenInterceptor，tokenInterceptor里面有会再调一次getToken()方法，表示是哪个用户在请求验证（可以验证是否过期等等）（getCurrentUser方法加了shareReplay，所以只会调用一次，后面直接返回结果。如果getToken()没有获取到Token的话，就不会调用getCurrentUser（）方法，也就不会this.currentUserSubject.next(user)，也就是说没有用户数据。访问网站，可以看到行为是默认进入首页，但是没有登陆。）
       useFactory: initAuth,
       deps: [JwtService, UserService],
+      // https://stackoverflow.com/a/38144889/23382462. multi代表不是override该类型的provider，而是加入到这个provider中，不会覆盖已有的。
       multi: true,
     },
   ],
