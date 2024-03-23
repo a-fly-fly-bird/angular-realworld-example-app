@@ -1,8 +1,8 @@
-import { Component, inject } from "@angular/core";
-import { UserService } from "../auth/services/user.service";
-import { RouterLink, RouterLinkActive } from "@angular/router";
 import { AsyncPipe, NgIf } from "@angular/common";
+import { Component, inject } from "@angular/core";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 import { IfAuthenticatedDirective } from "../auth/if-authenticated.directive";
+import { UserService } from "../auth/services/user.service";
 
 @Component({
   selector: "app-layout-header",
