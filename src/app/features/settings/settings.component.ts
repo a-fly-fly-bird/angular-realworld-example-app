@@ -1,4 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   FormControl,
   FormGroup,
@@ -6,11 +7,10 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { User } from "../../core/auth/user.model";
 import { UserService } from "../../core/auth/services/user.service";
-import { ListErrorsComponent } from "../../shared/components/list-errors.component";
+import { User } from "../../core/auth/user.model";
 import { Errors } from "../../core/models/errors.model";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { ListErrorsComponent } from "../../shared/components/list-errors.component";
 
 interface SettingsForm {
   image: FormControl<string>;
@@ -29,6 +29,7 @@ interface SettingsForm {
 export default class SettingsComponent implements OnInit {
   user!: User;
   settingsForm = new FormGroup<SettingsForm>({
+    // nonNullable 代表这个值不可以被设置为null，如果reset会初始化为默认值
     image: new FormControl("", { nonNullable: true }),
     username: new FormControl("", { nonNullable: true }),
     bio: new FormControl("", { nonNullable: true }),

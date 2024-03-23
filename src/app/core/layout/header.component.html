@@ -46,6 +46,9 @@
         </a>
       </li>
 
+      <!-- 为什么要currentUser$ | async; as currentUser这样用参考: https://blog.angular-university.io/angular-reactive-templates/ -->
+      <!-- 简而言之就是这样更加符合响应式，而且能够自己终止订阅等等 -->
+      <!-- 下面这一行的作用就是拿到currentUser$这个Observable并订阅一次，然后删除订阅，并assign(as)给currentUser变量，然后就可以在作用域里使用。 -->
       @if (currentUser$ | async; as currentUser) {
         <li class="nav-item">
           <a
