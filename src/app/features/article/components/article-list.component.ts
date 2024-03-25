@@ -1,11 +1,11 @@
+import { NgClass, NgForOf, NgIf } from "@angular/common";
 import { Component, DestroyRef, inject, Input } from "@angular/core";
-import { ArticlesService } from "../services/articles.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { LoadingState } from "../../../core/models/loading-state.model";
 import { ArticleListConfig } from "../models/article-list-config.model";
 import { Article } from "../models/article.model";
+import { ArticlesService } from "../services/articles.service";
 import { ArticlePreviewComponent } from "./article-preview.component";
-import { NgClass, NgForOf, NgIf } from "@angular/common";
-import { LoadingState } from "../../../core/models/loading-state.model";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-article-list",
@@ -89,6 +89,8 @@ export class ArticleListComponent {
         this.results = data.articles;
 
         // Used from http://www.jstips.co/en/create-range-0...n-easily-using-one-line/
+        // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+        // Array.from 可以从一个可迭代的对象中创造一个新数组，下面这段代码的意思是：新建一个页数长度的数组，然后迭代这个数组，获得index, 所以最后得到的数组值就是从1到页数
         this.totalPages = Array.from(
           new Array(Math.ceil(data.articlesCount / this.limit)),
           (val, index) => index + 1,
