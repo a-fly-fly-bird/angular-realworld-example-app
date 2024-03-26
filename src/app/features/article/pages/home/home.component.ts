@@ -68,6 +68,7 @@ export default class HomeComponent implements OnInit {
     }
 
     // Otherwise, set the list object
+    // 直接换引用地址了，所以变更检测能检测到
     this.listConfig = { type: type, filters: filters };
   }
 }

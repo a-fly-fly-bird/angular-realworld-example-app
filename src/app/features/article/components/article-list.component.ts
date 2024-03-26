@@ -1,5 +1,5 @@
 import { NgClass, NgForOf, NgIf } from "@angular/common";
-import { Component, DestroyRef, inject, Input } from "@angular/core";
+import { Component, DestroyRef, Input, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { LoadingState } from "../../../core/models/loading-state.model";
 import { ArticleListConfig } from "../models/article-list-config.model";
@@ -55,6 +55,8 @@ export class ArticleListComponent {
   destroyRef = inject(DestroyRef);
 
   @Input() limit!: number;
+
+  // 直接在@Input()接set, 这样输入就会作为参数
   @Input()
   set config(config: ArticleListConfig) {
     if (config) {
