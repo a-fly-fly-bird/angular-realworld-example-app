@@ -1,17 +1,19 @@
 import { Injectable } from "@angular/core";
-import { Observable, BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
-import { JwtService } from "./jwt.service";
-import { map, distinctUntilChanged, tap, shareReplay } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
-import { User } from "../user.model";
 import { Router } from "@angular/router";
+import { distinctUntilChanged, map, shareReplay, tap } from "rxjs/operators";
+import { User } from "../user.model";
+import { JwtService } from "./jwt.service";
 
 @Injectable({ providedIn: "root" })
 export class UserService {
+  // 肯定有很多地方会用到用户信息，所以保存起来是有必要的
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser = this.currentUserSubject
     .asObservable()
+    // 用户可能会改变，但是也可能是重复登录同一个账号，设置只有不同时才发出可以优化性能
     .pipe(distinctUntilChanged());
 
   public isAuthenticated = this.currentUser.pipe(map((user) => !!user));
